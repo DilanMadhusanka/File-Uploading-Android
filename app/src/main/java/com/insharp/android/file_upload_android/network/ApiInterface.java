@@ -16,7 +16,18 @@ public interface ApiInterface {
     //we have two parameters on is name and other one is description
     @Multipart
     @POST("Api.php?apicall=upload")
-    Call<ImageResponse> uploadImage(@Part("image\"; filename=\"myfile.jpg\" ") RequestBody file, @Part("desc") RequestBody desc);
+    Call<ImageResponse> uploadImage(@Part("image\"; filename=\"myfile.pdf\" ") RequestBody file, @Part("desc") RequestBody desc);
+
+
+
+
+//    String fileType = "image\"; filename=\"myfile.txt\" ";
+//
+//    //this is our multipart request
+//    //we have two parameters on is name and other one is description
+//    @Multipart
+//    @POST("Api.php?apicall=upload")
+//    Call<ImageResponse> uploadImage(@Part(fileType) RequestBody file, @Part("desc") RequestBody desc);
 
 
 }
