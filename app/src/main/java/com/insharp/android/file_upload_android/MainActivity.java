@@ -29,6 +29,7 @@ import com.insharp.android.file_upload_android.network.ApiInterface;
 import java.io.File;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -91,7 +92,18 @@ public class MainActivity extends AppCompatActivity {
         File file = new File(getRealPathFromURI(getApplicationContext(), fileUri));
 
         //creating request body for file
-        RequestBody requestFile = RequestBody.create(MediaType.parse(getContentResolver().getType(fileUri)), file);
+//        RequestBody requestFile = RequestBody.create(MediaType.parse(getContentResolver().getType(fileUri)), file);
+
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse(getContentResolver().getType(fileUri)),
+                        file
+                );
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+
         RequestBody descBody = RequestBody.create(MediaType.parse("text/plain"), desc);
 
         //The gson builder
@@ -110,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         ApiInterface api = retrofit.create(ApiInterface.class);
 
         //creating a call and calling the upload image method
-        Call<ImageResponse> call = api.uploadImage(requestFile, descBody);
+        Call<ImageResponse> call = api.uploadImage(body, descBody);
 
         //finally performing the call
         call.enqueue(new Callback<ImageResponse>() {
